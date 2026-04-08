@@ -3,62 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المواقع الأثرية في سلطنة عمان</title>
+<title>المواقع الأثرية</title>
 
 <style>
 body{
 margin:0;
 font-family:"Tahoma";
 direction:rtl;
-background:#eef2f3;
+overflow:hidden;
 }
 
 /* الصفحات */
 .page{
-display:none;
-padding:20px;
-}
-
-.active{
-display:block;
-}
-
-/* الغلاف */
-.cover{
-height:100vh;
+position:fixed;
+top:0;
+right:0;
+width:100%;
+height:100%;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
+transition:0.6s;
+}
+
+/* الغلاف */
+#cover{
 background:linear-gradient(to bottom,#004d40,#009688);
 color:white;
+z-index:2;
 text-align:center;
 }
 
-button{
-padding:10px 20px;
-margin:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#004d40;
-color:white;
-font-size:16px;
+/* الصفحة الثانية */
+#main{
+background:#eef2f3;
+opacity:0;
+pointer-events:none;
+padding:20px;
+overflow:auto;
+align-items:stretch;
 }
 
-/* صفحة المحتوى */
-.main-container{
-display:flex;
-gap:20px;
-align-items:flex-start;
+/* تفعيل الصفحة */
+#main.active{
+opacity:1;
+pointer-events:auto;
+}
+
+/* إخفاء الغلاف */
+#cover.hide{
+transform:translateX(-100%);
 }
 
 /* الخريطة */
 .map-img{
-width:220px;
+width:180px;
 opacity:0.85;
 border-radius:12px;
 box-shadow:0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* التخطيط */
+.main-container{
+display:flex;
+gap:20px;
+align-items:flex-start;
 }
 
 /* الأزرار */
@@ -70,16 +80,21 @@ gap:10px;
 justify-content:center;
 }
 
-.gov-btn{
+button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
 background:#009688;
+color:white;
 }
 
-.gov-btn:hover{
+button:hover{
 background:#004d40;
 transform:scale(1.05);
 }
 
-/* صندوق المعلومات */
+/* المعلومات */
 .info-box{
 margin-top:20px;
 background:white;
@@ -90,12 +105,6 @@ max-width:800px;
 margin-left:auto;
 margin-right:auto;
 text-align:right;
-animation:fade 0.5s;
-}
-
-@keyframes fade{
-from{opacity:0}
-to{opacity:1}
 }
 
 .site{
@@ -113,27 +122,25 @@ margin-bottom:10px;
 
 <body>
 
-<!-- صفحة الغلاف -->
-<div class="page cover active" id="cover">
+<!-- الغلاف -->
+<div class="page" id="cover">
 <h1>المواقع الأثرية في سلطنة عمان</h1>
 <p>الصف: الحادي عشر / سابع</p>
 <p>مدرسة الشيخة نضيرة الريامية</p>
 <p>المعلمة: أ. زمزم السليمانية</p>
 
-<button onclick="goTo('main')">دخول المشروع</button>
+<button onclick="enterSite()">دخول المشروع</button>
 </div>
 
-<!-- صفحة المحتوى -->
+<!-- الصفحة الثانية -->
 <div class="page" id="main">
 
 <h2 style="text-align:center;">اختر محافظة</h2>
 
 <div class="main-container">
 
-<!-- الخريطة على اليسار -->
 <img src="oman-map.jpg" class="map-img">
 
-<!-- الأزرار -->
 <div class="governorates" id="buttons"></div>
 
 </div>
@@ -146,12 +153,10 @@ margin-bottom:10px;
 
 <script>
 
-/* التنقل */
-function goTo(page){
-document.querySelectorAll(".page").forEach(function(p){
-p.classList.remove("active");
-});
-document.getElementById(page).classList.add("active");
+/* الانتقال (يشبه صفحة جديدة) */
+function enterSite(){
+document.getElementById("cover").classList.add("hide");
+document.getElementById("main").classList.add("active");
 }
 
 /* البيانات */
@@ -229,7 +234,6 @@ const buttonsDiv=document.getElementById("buttons");
 
 for(let key in data){
 let btn=document.createElement("button");
-btn.className="gov-btn";
 btn.innerText=data[key].name;
 btn.onclick=()=>showInfo(key);
 buttonsDiv.appendChild(btn);
