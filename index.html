@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مشروع المواقع الأثرية</title>
+
+<style>
+body{
+margin:0;
+font-family:"Tahoma";
+direction:rtl;
+background:#eef2f3;
+}
+
+/* الصفحات */
+.page{
+display:none;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:block;
+}
+
+/* الغلاف */
+.cover{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(to bottom,#004d40,#009688);
+color:white;
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#004d40;
+color:white;
+font-size:16px;
+}
+
+/* الخريطة */
+.map-img{
+width:50%;
+max-width:400px;
+opacity:0.85;
+margin-top:15px;
+border-radius:12px;
+box-shadow:0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* المحتوى */
+.governorates{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+margin-top:20px;
+}
+
+.gov-btn{
+background:#009688;
+}
+
+.gov-btn:hover{
+background:#004d40;
+transform:scale(1.05);
+}
+
+/* صندوق المعلومات */
+.info-box{
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+max-width:800px;
+margin:auto;
+text-align:right;
+animation:fade 0.5s;
+}
+
+@keyframes fade{
+from{opacity:0}
+to{opacity:1}
+}
+
+.site{
+padding:8px;
+border-bottom:1px solid #ddd;
+}
+
+.count{
+color:#009688;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.print{
+background:#00796b;
+}
+</style>
+</head>
+
+<body>
+
+<!-- صفحة الغلاف -->
+<div class="page cover active" id="cover">
+<h1>المواقع الأثرية في سلطنة عمان</h1>
+<p>الصف: الحادي عشر / سابع</p>
+<p>مدرسة الشيخة نضيرة الريامية</p>
+<p>المعلمة: أ. زمزم السليمانية</p>
+
+<button onclick="goTo('about')">دخول المشروع</button>
+</div>
+
+<!-- صفحة تعريف المشروع -->
+<div class="page" id="about">
+<h2>عن المشروع</h2>
+<p>
+هذا مشروع تعليمي يهدف إلى التعرف على أبرز المواقع الأثرية في محافظات سلطنة عمان،
+وتم تصميمه باستخدام تقنيات الويب (HTML - CSS - JavaScript) بطريقة تفاعلية.
+</p>
+
+<button onclick="goTo('main')">عرض المحافظات</button>
+</div>
+
+<!-- الصفحة الرئيسية -->
+<div class="page" id="main">
+
+<h2>اختر محافظة</h2>
+
+<!-- صورة الخريطة -->
+<img src="oman-map.jpg" class="map-img">
+
+<div class="governorates" id="buttons"></div>
+
+<div class="info-box" id="infoBox">
+اختر محافظة لعرض المعلومات
+</div>
+
+<button class="print" onclick="window.print()">طباعة المشروع</button>
+
+</div>
+
+<script>
+
+/* التنقل */
+function goTo(page){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(page).classList.add("active");
+}
+
+/* البيانات */
+const data = {
+
+muscat:{name:"مسقط",sites:[
+"تضم سلسلة جبال حجر عمان",
+"تضم سهل الباطنة",
+"محمية النباتات والأشجار العمانية",
+"رأس الحمراء والوطية",
+"جزر الديمانيات"
+]},
+
+buraymi:{name:"البريمي",sites:[
+"أرض الجو",
+"موقع قميرا وحفيت"
+]},
+
+dakhiliyah:{name:"الداخلية",sites:[
+"مسفاة العبريين",
+"كهف الهوتة",
+"جبل شمس",
+"واحة نزوى",
+"فلج الملكي",
+"موقع سلوت"
+]},
+
+dhahirah:{name:"الظاهرة",sites:[
+"أرض السر",
+"آثار وادي العين",
+"موقع بات"
+]},
+
+north_batinah:{name:"شمال الباطنة",sites:[
+"والي العباسيين على صحار",
+"خور وادي الجزي"
+]},
+
+south_batinah:{name:"جنوب الباطنة",sites:[
+"سبخات السوادي",
+"خور السوادي",
+"جزر السوادي"
+]},
+
+musandam:{name:"مسندم",sites:[
+"خور شم",
+"جزيرة التلغراف"
+]},
+
+north_sharqiyah:{name:"شمال الشرقية",sites:[
+"رمال الشرقية (ال وهيبة)"
+]},
+
+south_sharqiyah:{name:"جنوب الشرقية",sites:[
+"قلهات",
+"جزيرة مصيرة"
+]},
+
+wusta:{name:"الوسطى",sites:[
+"صحراء الحقف",
+"حديقة الصخور الدقم"
+]},
+
+dhofar:{name:"ظفار",sites:[
+"عين ارزات",
+"خور المغسيل",
+"شجرة اللبان",
+"كهف المرنيف"
+]}
+
+};
+
+/* إنشاء الأزرار */
+const buttonsDiv=document.getElementById("buttons");
+
+for(let key in data){
+let btn=document.createElement("button");
+btn.className="gov-btn";
+btn.innerText=data[key].name;
+btn.onclick=()=>showInfo(key);
+buttonsDiv.appendChild(btn);
+}
+
+/* عرض المعلومات */
+function showInfo(region){
+const info=data[region];
+
+let content=`<h2>${info.name}</h2>`;
+content+=`<div class="count">عدد المواقع: ${info.sites.length}</div>`;
+
+info.sites.forEach((site,index)=>{
+content+=`<div class="site">${index+1}- ${site}</div>`;
+});
+
+infoBox.innerHTML=content;
+}
+
+</script>
+
+</body>
+</html>
