@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مشروع المواقع الأثرية</title>
+<title>المواقع الأثرية في سلطنة عمان</title>
 
 <style>
 body{
@@ -17,7 +17,6 @@ background:#eef2f3;
 .page{
 display:none;
 padding:20px;
-text-align:center;
 }
 
 .active{
@@ -33,6 +32,7 @@ justify-content:center;
 align-items:center;
 background:linear-gradient(to bottom,#004d40,#009688);
 color:white;
+text-align:center;
 }
 
 button{
@@ -46,23 +46,28 @@ color:white;
 font-size:16px;
 }
 
+/* صفحة المحتوى */
+.main-container{
+display:flex;
+gap:20px;
+align-items:flex-start;
+}
+
 /* الخريطة */
 .map-img{
-width:50%;
-max-width:400px;
+width:220px;
 opacity:0.85;
-margin-top:15px;
 border-radius:12px;
 box-shadow:0 3px 10px rgba(0,0,0,0.15);
 }
 
-/* المحتوى */
+/* الأزرار */
 .governorates{
+flex:1;
 display:flex;
 flex-wrap:wrap;
-justify-content:center;
 gap:10px;
-margin-top:20px;
+justify-content:center;
 }
 
 .gov-btn{
@@ -82,7 +87,8 @@ padding:20px;
 border-radius:12px;
 box-shadow:0 5px 20px rgba(0,0,0,0.2);
 max-width:800px;
-margin:auto;
+margin-left:auto;
+margin-right:auto;
 text-align:right;
 animation:fade 0.5s;
 }
@@ -102,10 +108,6 @@ color:#009688;
 font-weight:bold;
 margin-bottom:10px;
 }
-
-.print{
-background:#00796b;
-}
 </style>
 </head>
 
@@ -118,35 +120,27 @@ background:#00796b;
 <p>مدرسة الشيخة نضيرة الريامية</p>
 <p>المعلمة: أ. زمزم السليمانية</p>
 
-<button onclick="goTo('about')">دخول المشروع</button>
+<button onclick="goTo('main')">دخول المشروع</button>
 </div>
 
-<!-- صفحة تعريف المشروع -->
-<div class="page" id="about">
-<h2>عن المشروع</h2>
-<p>
-هذا مشروع تعليمي يهدف إلى التعرف على أبرز المواقع الأثرية في محافظات سلطنة عمان،
-وتم تصميمه باستخدام تقنيات الويب (HTML - CSS - JavaScript) بطريقة تفاعلية.
-</p>
-
-<button onclick="goTo('main')">عرض المحافظات</button>
-</div>
-
-<!-- الصفحة الرئيسية -->
+<!-- صفحة المحتوى -->
 <div class="page" id="main">
 
-<h2>اختر محافظة</h2>
+<h2 style="text-align:center;">اختر محافظة</h2>
 
-<!-- صورة الخريطة -->
+<div class="main-container">
+
+<!-- الخريطة على اليسار -->
 <img src="oman-map.jpg" class="map-img">
 
+<!-- الأزرار -->
 <div class="governorates" id="buttons"></div>
+
+</div>
 
 <div class="info-box" id="infoBox">
 اختر محافظة لعرض المعلومات
 </div>
-
-<button class="print" onclick="window.print()">طباعة المشروع</button>
 
 </div>
 
@@ -154,7 +148,9 @@ background:#00796b;
 
 /* التنقل */
 function goTo(page){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.querySelectorAll(".page").forEach(function(p){
+p.classList.remove("active");
+});
 document.getElementById(page).classList.add("active");
 }
 
@@ -250,7 +246,7 @@ info.sites.forEach((site,index)=>{
 content+=`<div class="site">${index+1}- ${site}</div>`;
 });
 
-infoBox.innerHTML=content;
+document.getElementById("infoBox").innerHTML=content;
 }
 
 </script>
