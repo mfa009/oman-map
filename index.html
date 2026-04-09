@@ -3,254 +3,292 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المواقع الأثرية</title>
+<title>المواقع الأثرية في سلطنة عمان</title>
 
 <style>
 body{
 margin:0;
-font-family:"Tahoma";
+font-family:"Tahoma", sans-serif;
 direction:rtl;
-overflow:hidden;
+background:#f5f5f5;
 }
 
-/* الصفحات */
-.page{
-position:fixed;
-top:0;
-right:0;
-width:100%;
-height:100%;
+/* صفحة الغلاف */
+.cover{
+height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-transition:0.6s;
-}
-
-/* الغلاف */
-#cover{
-background:linear-gradient(to bottom,#004d40,#009688);
+background:linear-gradient(to bottom,#004d40,#00796b);
 color:white;
-z-index:2;
 text-align:center;
-}
-
-/* الصفحة الثانية */
-#main{
-background:#eef2f3;
-opacity:0;
-pointer-events:none;
 padding:20px;
-overflow:auto;
-align-items:stretch;
 }
 
-/* تفعيل الصفحة */
-#main.active{
-opacity:1;
-pointer-events:auto;
+.cover h1{
+font-size:28px;
+margin-bottom:20px;
 }
 
-/* إخفاء الغلاف */
-#cover.hide{
-transform:translateX(-100%);
-}
-
-/* الخريطة */
-.map-img{
-width:180px;
-opacity:0.85;
-border-radius:12px;
-box-shadow:0 3px 10px rgba(0,0,0,0.15);
-}
-
-/* التخطيط */
-.main-container{
-display:flex;
-gap:20px;
-align-items:flex-start;
-}
-
-/* الأزرار */
-.governorates{
-flex:1;
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-justify-content:center;
-}
-
-button{
-padding:10px 15px;
+.cover button{
+padding:12px 25px;
+font-size:18px;
 border:none;
 border-radius:8px;
 cursor:pointer;
-background:#009688;
-color:white;
-}
-
-button:hover{
-background:#004d40;
-transform:scale(1.05);
-}
-
-/* المعلومات */
-.info-box{
+background:white;
+color:#004d40;
 margin-top:20px;
+}
+
+/* صفحة المحتوى */
+.content{
+display:none;
+padding:30px;
+text-align:center;
+}
+
+h2{
+color:#004d40;
+}
+
+/* أزرار المحافظات */
+.governorates{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:12px;
+margin-top:20px;
+}
+
+.gov-btn{
+background:#00796b;
+color:white;
+padding:10px 18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:15px;
+transition:0.3s;
+}
+
+.gov-btn:hover{
+background:#004d40;
+}
+
+/* صندوق المعلومات */
+.info-box{
+margin-top:30px;
 background:white;
 padding:20px;
-border-radius:12px;
-box-shadow:0 5px 20px rgba(0,0,0,0.2);
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.15);
 max-width:800px;
 margin-left:auto;
 margin-right:auto;
 text-align:right;
 }
 
-.site{
-padding:8px;
-border-bottom:1px solid #ddd;
-}
-
-.count{
-color:#009688;
-font-weight:bold;
-margin-bottom:10px;
+ul{
+line-height:1.9;
+font-size:16px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- الغلاف -->
-<div class="page" id="cover">
-<h1>المواقع الأثرية في سلطنة عمان</h1>
+<!-- صفحة الغلاف -->
+<div class="cover" id="cover">
+<h1>المواقع الأثرية في محافظات سلطنة عمان</h1>
 <p>الصف: الحادي عشر / سابع</p>
 <p>مدرسة الشيخة نضيرة الريامية</p>
 <p>المعلمة: أ. زمزم السليمانية</p>
-
-<button onclick="enterSite()">دخول المشروع</button>
+<button onclick="startProject()">دخول المشروع</button>
 </div>
 
-<!-- الصفحة الثانية -->
-<div class="page" id="main">
+<!-- صفحة القائمة -->
+<div class="content" id="content">
 
-<h2 style="text-align:center;">اختر محافظة</h2>
+<h2>اختر محافظة لعرض مواقعها الأثرية</h2>
 
-<div class="main-container">
+<!-- إضافة الخريطة -->
+<div style="display:flex; align-items:flex-start; gap:20px;">
 
-<img src="oman-map.jpg" class="map-img">
+<img src="oman-map.jpg" style="
+width:150px;
+border-radius:10px;
+opacity:0.85;
+box-shadow:0 3px 8px rgba(0,0,0,0.2);
+">
 
-<div class="governorates" id="buttons"></div>
+<div style="flex:1;">
+
+<div class="governorates">
+
+<button class="gov-btn" onclick="showInfo('muscat')">مسقط</button>
+<button class="gov-btn" onclick="showInfo('musandam')">مسندم</button>
+<button class="gov-btn" onclick="showInfo('north_batinah')">شمال الباطنة</button>
+<button class="gov-btn" onclick="showInfo('south_batinah')">جنوب الباطنة</button>
+<button class="gov-btn" onclick="showInfo('dakhiliyah')">الداخلية</button>
+<button class="gov-btn" onclick="showInfo('north_sharqiyah')">شمال الشرقية</button>
+<button class="gov-btn" onclick="showInfo('south_sharqiyah')">جنوب الشرقية</button>
+<button class="gov-btn" onclick="showInfo('dhahirah')">الظاهرة</button>
+<button class="gov-btn" onclick="showInfo('wusta')">الوسطى</button>
+<button class="gov-btn" onclick="showInfo('dhofar')">ظفار</button>
+<button class="gov-btn" onclick="showInfo('buraymi')">البريمي</button>
 
 </div>
 
 <div class="info-box" id="infoBox">
-اختر محافظة لعرض المعلومات
+اختر محافظة لعرض المعلومات.
+</div>
+
+</div>
 </div>
 
 </div>
 
 <script>
 
-/* الانتقال (يشبه صفحة جديدة) */
-function enterSite(){
-document.getElementById("cover").classList.add("hide");
-document.getElementById("main").classList.add("active");
+function startProject(){
+document.getElementById("cover").style.display="none";
+document.getElementById("content").style.display="block";
 }
 
-/* البيانات */
 const data = {
 
-muscat:{name:"مسقط",sites:[
+muscat:{
+name:"محافظة مسقط",
+sites:[
 "تضم سلسلة جبال حجر عمان",
 "تضم سهل الباطنة",
-"محمية النباتات والأشجار العمانية",
+"محمية حديقة النباتات والأشجار العمانية",
 "رأس الحمراء والوطية",
-"جزر الديمانيات"
-]},
+"جزر الديمانيات (بين السيب وبركاء)"
+]
+},
 
-buraymi:{name:"البريمي",sites:[
+buraymi:{
+name:"محافظة البريمي",
+sites:[
 "أرض الجو",
 "موقع قميرا وحفيت"
-]},
+]
+},
 
-dakhiliyah:{name:"الداخلية",sites:[
-"مسفاة العبريين",
+dakhiliyah:{
+name:"محافظة الداخلية",
+sites:[
+"مسفاة العبريين في الحمراء",
+"أرض الجوف",
 "كهف الهوتة",
 "جبل شمس",
 "واحة نزوى",
 "فلج الملكي",
 "موقع سلوت"
-]},
+]
+},
 
-dhahirah:{name:"الظاهرة",sites:[
+dhahirah:{
+name:"محافظة الظاهرة",
+sites:[
 "أرض السر",
 "آثار وادي العين",
-"موقع بات"
-]},
+"موقع بات في عبري"
+]
+},
 
-north_batinah:{name:"شمال الباطنة",sites:[
+north_batinah:{
+name:"محافظة شمال الباطنة",
+sites:[
 "والي العباسيين على صحار",
-"خور وادي الجزي"
-]},
+"خور وادي الجزي",
+"تضم سلسلة جبال حجر عمان وسهل الباطنة"
+]
+},
 
-south_batinah:{name:"جنوب الباطنة",sites:[
+south_batinah:{
+name:"محافظة جنوب الباطنة",
+sites:[
+"تضم سلسلة جبال حجر عمان وسهل الباطنة",
 "سبخات السوادي",
 "خور السوادي",
 "جزر السوادي"
-]},
+]
+},
 
-musandam:{name:"مسندم",sites:[
+musandam:{
+name:"محافظة مسندم",
+sites:[
+"تضم سلسلة جبال حجر عمان",
 "خور شم",
+"أرض الصير",
+"جزيرة الغنم والخيل وسلامة وبناتها",
 "جزيرة التلغراف"
-]},
+]
+},
 
-north_sharqiyah:{name:"شمال الشرقية",sites:[
+north_sharqiyah:{
+name:"محافظة شمال الشرقية",
+sites:[
 "رمال الشرقية (ال وهيبة)"
-]},
+]
+},
 
-south_sharqiyah:{name:"جنوب الشرقية",sites:[
-"قلهات",
-"جزيرة مصيرة"
-]},
+south_sharqiyah:{
+name:"محافظة جنوب الشرقية",
+sites:[
+"موقع قلهات",
+"محمية حديقة السليل الطبيعية",
+"جزيرة مصيرة",
+"خور جراما",
+"رمال الشرقية (ال وهيبة)"
+]
+},
 
-wusta:{name:"الوسطى",sites:[
+wusta:{
+name:"محافظة الوسطى",
+sites:[
 "صحراء الحقف",
+"سبخة أم السميم",
+"واحة جدة الحراسيس في هيما",
 "حديقة الصخور الدقم"
-]},
+]
+},
 
-dhofar:{name:"ظفار",sites:[
+dhofar:{
+name:"محافظة ظفار",
+sites:[
 "عين ارزات",
+"عين حمران",
+"محمية جبل سمحان",
 "خور المغسيل",
 "شجرة اللبان",
-"كهف المرنيف"
-]}
+"كهف المرنيف",
+"إعصار مكونو",
+"جزر الحلانيات",
+"أرض بلاد الشحر"
+]
+}
 
 };
 
-/* إنشاء الأزرار */
-const buttonsDiv=document.getElementById("buttons");
-
-for(let key in data){
-let btn=document.createElement("button");
-btn.innerText=data[key].name;
-btn.onclick=()=>showInfo(key);
-buttonsDiv.appendChild(btn);
-}
-
-/* عرض المعلومات */
 function showInfo(region){
+
 const info=data[region];
 
-let content=`<h2>${info.name}</h2>`;
-content+=`<div class="count">عدد المواقع: ${info.sites.length}</div>`;
+let content=`<h2>${info.name}</h2><ul>`;
 
-info.sites.forEach((site,index)=>{
-content+=`<div class="site">${index+1}- ${site}</div>`;
+info.sites.forEach(site=>{
+content+=`<li>${site}</li>`;
 });
 
+content+="</ul>";
+
 document.getElementById("infoBox").innerHTML=content;
+
 }
 
 </script>
