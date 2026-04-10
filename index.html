@@ -170,10 +170,12 @@ document.getElementById("cover").style.display="none";
 document.getElementById("content").style.display="block";
 }
 
+
 const data = {
 
 muscat:{
 name:"محافظة مسقط",
+images:["images (1).jpg","3.jpeg"],
 sites:[
 "تضم سلسلة جبال حجر عمان",
 "تضم سهل الباطنة",
@@ -185,14 +187,37 @@ sites:[
 
 buraymi:{
 name:"محافظة البريمي",
+images:["4.jpg","11.jpg"],
 sites:[
 "أرض الجو",
 "موقع قميرا وحفيت"
 ]
 },
 
+north_batinah:{
+name:"محافظة شمال الباطنة",
+images:["5.jpg"],
+sites:[
+"والي العباسيين على صحار",
+"خور وادي الجزي",
+"تضم سلسلة جبال حجر عمان وسهل الباطنة"
+]
+},
+
+south_batinah:{
+name:"محافظة جنوب الباطنة",
+images:["6.jpg"],
+sites:[
+"تضم سلسلة جبال حجر عمان وسهل الباطنة",
+"سبخات السوادي",
+"خور السوادي",
+"جزر السوادي"
+]
+},
+
 dakhiliyah:{
 name:"محافظة الداخلية",
+images:["7.jpg","8.jpg"],
 sites:[
 "مسفاة العبريين في الحمراء",
 "أرض الجوف",
@@ -204,54 +229,9 @@ sites:[
 ]
 },
 
-dhahirah:{
-name:"محافظة الظاهرة",
-sites:[
-"أرض السر",
-"آثار وادي العين",
-"موقع بات في عبري"
-]
-},
-
-north_batinah:{
-name:"محافظة شمال الباطنة",
-sites:[
-"والي العباسيين على صحار",
-"خور وادي الجزي",
-"تضم سلسلة جبال حجر عمان وسهل الباطنة"
-]
-},
-
-south_batinah:{
-name:"محافظة جنوب الباطنة",
-sites:[
-"تضم سلسلة جبال حجر عمان وسهل الباطنة",
-"سبخات السوادي",
-"خور السوادي",
-"جزر السوادي"
-]
-},
-
-musandam:{
-name:"محافظة مسندم",
-sites:[
-"تضم سلسلة جبال حجر عمان",
-"خور شم",
-"أرض الصير",
-"جزيرة الغنم والخيل وسلامة وبناتها",
-"جزيرة التلغراف"
-]
-},
-
-north_sharqiyah:{
-name:"محافظة شمال الشرقية",
-sites:[
-"رمال الشرقية (ال وهيبة)"
-]
-},
-
 south_sharqiyah:{
 name:"محافظة جنوب الشرقية",
+images:["9.jpg","10.jpg"],
 sites:[
 "موقع قلهات",
 "محمية حديقة السليل الطبيعية",
@@ -261,18 +241,9 @@ sites:[
 ]
 },
 
-wusta:{
-name:"محافظة الوسطى",
-sites:[
-"صحراء الحقف",
-"سبخة أم السميم",
-"واحة جدة الحراسيس في هيما",
-"حديقة الصخور الدقم"
-]
-},
-
 dhofar:{
 name:"محافظة ظفار",
+images:["12.jpg","13.jpg"],
 sites:[
 "عين ارزات",
 "عين حمران",
@@ -287,23 +258,43 @@ sites:[
 }
 
 };
+}
+
+
 
 function showInfo(region){
 
 const info=data[region];
 
-let content=`<h2>${info.name}</h2><ul>`;
+let content = `<h2>${info.name}</h2>`;
 
-info.sites.forEach(site=>{
-content+=`<li>${site}</li>`;
+/* عرض الصور */
+content += `<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">`;
+
+info.images.forEach(img=>{
+content += `
+<img src="${img}" style="
+width:120px;
+border-radius:8px;
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
+">
+`;
 });
 
-content+="</ul>";
+content += `</div>`;
 
-document.getElementById("infoBox").innerHTML=content;
+/* عرض المواقع */
+content += "<ul>";
+
+info.sites.forEach(site=>{
+content += `<li>${site}</li>`;
+});
+
+content += "</ul>";
+
+document.getElementById("infoBox").innerHTML = content;
 
 }
-
 </script>
 
 </body>
