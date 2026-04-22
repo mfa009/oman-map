@@ -113,7 +113,6 @@ font-size:16px;
 
 <h2>اختر محافظة لعرض مواقعها الأثرية</h2>
 
-<!-- إضافة الخريطة -->
 <div style="display:flex; align-items:flex-start; gap:20px;">
 
 <img src="oman-map.jpg" style="
@@ -157,7 +156,7 @@ document.getElementById("cover").style.display="none";
 document.getElementById("content").style.display="block";
 }
 
-
+/* البيانات */
 const data = {
 
 muscat:{
@@ -245,9 +244,6 @@ sites:[
 }
 
 };
-}
-
-
 
 function showInfo(region){
 
@@ -255,23 +251,13 @@ const info=data[region];
 
 let content = `<h2>${info.name}</h2>`;
 
-/* عرض الصور */
 content += `<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">`;
 
 info.images.forEach(img=>{
-content += `
-<img src="${img}" style="
-width:120px;
-border-radius:8px;
-box-shadow:0 2px 8px rgba(0,0,0,0.2);
-">
-`;
+content += `<img src="${img}" style="width:120px; border-radius:8px;">`;
 });
 
-content += `</div>`;
-
-/* عرض المواقع */
-content += "<ul>";
+content += `</div><ul>`;
 
 info.sites.forEach(site=>{
 content += `<li>${site}</li>`;
@@ -282,6 +268,7 @@ content += "</ul>";
 document.getElementById("infoBox").innerHTML = content;
 
 }
+
 </script>
 
 </body>
