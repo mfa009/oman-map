@@ -13,7 +13,6 @@ direction:rtl;
 background:#f5f5f5;
 }
 
-/* صفحة الغلاف */
 .cover{
 height:100vh;
 display:flex;
@@ -42,7 +41,6 @@ color:#004d40;
 margin-top:20px;
 }
 
-/* صفحة المحتوى */
 .content{
 display:none;
 padding:30px;
@@ -53,7 +51,6 @@ h2{
 color:#004d40;
 }
 
-/* أزرار المحافظات */
 .governorates{
 display:flex;
 flex-wrap:wrap;
@@ -75,9 +72,9 @@ transition:0.3s;
 
 .gov-btn:hover{
 background:#004d40;
+transform:scale(1.05);
 }
 
-/* صندوق المعلومات */
 .info-box{
 margin-top:30px;
 background:white;
@@ -85,21 +82,64 @@ padding:20px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.15);
 max-width:800px;
-margin-left:auto;
-margin-right:auto;
+margin:auto;
 text-align:right;
+animation:fadeIn 0.5s ease;
 }
 
 ul{
 line-height:1.9;
 font-size:16px;
 }
+
+/* حركة ظهور */
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(10px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+/* الصور */
+.info-box img{
+cursor:pointer;
+transition:0.3s;
+}
+
+.info-box img:hover{
+transform:scale(1.08);
+}
+
+/* نافذة الصورة */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.modal img{
+max-width:80%;
+border-radius:10px;
+}
+
+.modal span{
+position:absolute;
+top:20px;
+right:30px;
+font-size:30px;
+color:white;
+cursor:pointer;
+}
 </style>
 </head>
 
 <body>
 
-<!-- صفحة الغلاف -->
 <div class="cover" id="cover">
 <h1>المواقع الأثرية في محافظات سلطنة عمان</h1>
 <p>الصف: الحادي عشر / سابع</p>
@@ -108,19 +148,13 @@ font-size:16px;
 <button onclick="startProject()">دخول المشروع</button>
 </div>
 
-<!-- صفحة القائمة -->
 <div class="content" id="content">
 
 <h2>اختر محافظة لعرض مواقعها الأثرية</h2>
 
 <div style="display:flex; align-items:flex-start; gap:20px;">
 
-<img src="oman-map.jpg" style="
-width:150px;
-border-radius:10px;
-opacity:0.85;
-box-shadow:0 3px 8px rgba(0,0,0,0.2);
-">
+<img src="oman-map.jpg" style="width:150px; border-radius:10px;">
 
 <div style="flex:1;">
 
@@ -149,6 +183,12 @@ box-shadow:0 3px 8px rgba(0,0,0,0.2);
 
 </div>
 
+<!-- نافذة تكبير الصورة -->
+<div class="modal" id="imgModal">
+<span onclick="closeModal()">×</span>
+<img id="modalImg">
+</div>
+
 <script>
 
 function startProject(){
@@ -156,7 +196,6 @@ document.getElementById("cover").style.display="none";
 document.getElementById("content").style.display="block";
 }
 
-/* البيانات */
 const data = {
 
 muscat:{
@@ -165,9 +204,9 @@ images:["images (1).jpg","3.jpeg"],
 sites:[
 "تضم سلسلة جبال حجر عمان",
 "تضم سهل الباطنة",
-"محمية حديقة النباتات والأشجار العمانية",
-"رأس الحمراء والوطية",
-"جزر الديمانيات (بين السيب وبركاء)"
+"محمية حديقة النباتات و الأشجار العمانية",
+"رأس الحمراء و الوطية",
+"جزر الديمانيات"
 ]
 },
 
@@ -176,28 +215,7 @@ name:"محافظة البريمي",
 images:["4.jpg","11.jpg"],
 sites:[
 "أرض الجو",
-"موقع قميرا وحفيت"
-]
-},
-
-north_batinah:{
-name:"محافظة شمال الباطنة",
-images:["5.jpg"],
-sites:[
-"والي العباسيين على صحار",
-"خور وادي الجزي",
-"تضم سلسلة جبال حجر عمان وسهل الباطنة"
-]
-},
-
-south_batinah:{
-name:"محافظة جنوب الباطنة",
-images:["6.jpg"],
-sites:[
-"تضم سلسلة جبال حجر عمان وسهل الباطنة",
-"سبخات السوادي",
-"خور السوادي",
-"جزر السوادي"
+"موقع قميرا و حفيت"
 ]
 },
 
@@ -215,6 +233,54 @@ sites:[
 ]
 },
 
+dhahirah:{
+name:"محافظة الظاهرة",
+sites:[
+"أرض السر",
+"آثار وادي العين",
+"موقع بات في عبري"
+]
+},
+
+north_batinah:{
+name:"محافظة شمال الباطنة",
+images:["5.jpg"],
+sites:[
+"والي العباسيين على صحار",
+"خور وادي الجزي",
+"تضم سلسلة جبال حجر عمان و سهل الباطنة"
+]
+},
+
+south_batinah:{
+name:"محافظة جنوب الباطنة",
+images:["6.jpg"],
+sites:[
+"تضم سلسلة جبال حجر عمان و سهل الباطنة",
+"سبخات السوادي",
+"خور السوادي",
+"جزر السوادي"
+]
+},
+
+musandam:{
+name:"محافظة مسندم",
+sites:[
+"تضم سلسلة جبال حجر عمان",
+"خور شم",
+"أرض الصير",
+"جزيرة الغنم ، الخيل ، سلامة و بناتها",
+"جزيرة التلغراف"
+]
+},
+
+north_sharqiyah:{
+name:"محافظة شمال الشرقية",
+sites:[
+"رمال الشرقية و ال وهيبة"
+]
+},
+
 south_sharqiyah:{
 name:"محافظة جنوب الشرقية",
 images:["9.jpg","10.jpg"],
@@ -223,7 +289,17 @@ sites:[
 "محمية حديقة السليل الطبيعية",
 "جزيرة مصيرة",
 "خور جراما",
-"رمال الشرقية (ال وهيبة)"
+"رمال الشرقية و ال وهيبة"
+]
+},
+
+wusta:{
+name:"محافظة الوسطى",
+sites:[
+"صحراء الحقف",
+"سبخة ام السميم",
+"واحة جدة الحراسيس في هيما",
+"حديقة الصخور الدقم"
 ]
 },
 
@@ -239,7 +315,7 @@ sites:[
 "كهف المرنيف",
 "إعصار مكونو",
 "جزر الحلانيات",
-"أرض بلاد الشحر"
+"ارض بلاد الشحر"
 ]
 }
 
@@ -247,17 +323,26 @@ sites:[
 
 function showInfo(region){
 
-const info=data[region];
+const info = data[region];
+
+if(!info){
+document.getElementById("infoBox").innerHTML="لا توجد بيانات";
+return;
+}
 
 let content = `<h2>${info.name}</h2>`;
 
+if(info.images){
 content += `<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">`;
 
 info.images.forEach(img=>{
-content += `<img src="${img}" style="width:120px; border-radius:8px;">`;
+content += `<img src="${img}" onclick="openModal(this.src)" style="width:120px; border-radius:8px;">`;
 });
 
-content += `</div><ul>`;
+content += `</div>`;
+}
+
+content += "<ul>";
 
 info.sites.forEach(site=>{
 content += `<li>${site}</li>`;
@@ -267,6 +352,16 @@ content += "</ul>";
 
 document.getElementById("infoBox").innerHTML = content;
 
+}
+
+/* تكبير الصور */
+function openModal(src){
+document.getElementById("imgModal").style.display="flex";
+document.getElementById("modalImg").src=src;
+}
+
+function closeModal(){
+document.getElementById("imgModal").style.display="none";
 }
 
 </script>
